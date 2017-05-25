@@ -176,7 +176,7 @@ try:
         command_list["buy"] = "Allows you to buy software to help you get more points. Subcommands: view"
     if "ls" in user["commands"]:
         command_list["ls"] = "Discover what files are on your system so that you can poke around with other software."    
-except (FileNotFoundError, json.decoder.JSONDecodeError):
+except Exception:
     #if save.json doesn't exist or is empty, skip loading instead of crashing
     pass
 
