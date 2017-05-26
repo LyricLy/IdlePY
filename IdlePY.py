@@ -1,6 +1,7 @@
 import sys
 import json
 import time
+from random import random
 
 user = {
     "points": 0,
@@ -10,9 +11,9 @@ user = {
     "software": [],
     "new_version": False,
     "update_message": "",
-    "new_command_name": "",
-    "new_command_description": "",
-    "version": 1.0
+    "update_function": "",
+    "version": 1.0,
+    "for_testing": ""
 }
 command_list = {
     "help": "Prints this help message.",
@@ -22,42 +23,51 @@ command_list = {
     "exit": "Exits the game WITHOUT SAVING. Be careful with this command!"
 }
 software_list = {
-    "Python": "A useful programming language that can allow you to program other software. Costs 500 points.$%500$%python",
-    "ls": "Discover what files are on your system so that you can poke around with other software. Costs 300 points.$%300$%ls",
-    "PointHack": "Get twice the points! Costs 100 points.$%100$%point_hack"
+    "Python": "A useful programming language that can allow you to program other software.$%1000$%python$%one_time",
+    "ls": "Discover what files are on your system so that you can poke around with other software.$%800$%ls$%one_time",
+    "PointHack": "Get more points with the 'add' command!$%50$%point_hack$%repeatable"
 }
 software_list_temp = {}
 #functions for software from the shop that will trigger when software is bought
 def python():
     user["software"].append("python")
-    software_list_temp["Basic Bot"] = "Runs the add command in the background once every five seconds. Costs 700 points.$%700$%basic_bot"
+    software_list_temp["Basic Bot"] = "Runs the add command once every five seconds.$%700$%basic_bot$%repeatable"
+    software_list_temp["BetterAdd"] = "Adds an improved version of the add command, 'badd' with greater stability and point gaining.$%500$%better_add$%one_time"
 
 def ls():
     user["software"].append("ls")
     user["commands"].append("ls")
-    software_list_temp["vim"] = "A text editor that can be used to edit files. Could you possibly spoof some numbers? Costs 500 points.$%500$%vim"
-    software_list_temp["cd"] = "A useful tool to move around your system. Costs 300 points.$%300$%vim"
+    software_list_temp["vim"] = "A text editor that can be used to edit files. Could you possibly spoof some numbers?$%500$%vim$%one_time"
+    software_list_temp["cd"] = "A useful tool to move around your system.$%300$%cd$%one_time"
     
 def point_hack():
-    user["software"].append("point_hack")
-    software_list_temp["PointHack Pro"] = "The professional version of PointHack to increase your point multiplier even more. Costs 300 points.$%300$%point_hack"
-    user["point_increment"] += 1
+    software_list_temp["PointHack Pro"] = "The professional version of PointHack to increase your point multiplier even more.$%300$%point_hack$%repeatable"
+    user["point_increment"] += 2
+    
+def better_add():
+    user["software"].append("better_add")
+    user["commands"].append("badd")
+#functions for updates that trigger when an update completes
+def one_dot_one():
+    user["commands"].append("buy")
+    command_list["buy"] = "Allows you to buy software to help you get more points. Subcommands: view"
+
     
 #if a function needs to be called when only the name of the function as a string is available, this can be used to point to the function
 function_list = {
     "python": python,
     "ls": ls,
-    "point_hack": point_hack
+    "point_hack": point_hack,
+    "better_add": better_add
 }
   
-def new_update(update_message, new_command=False, new_command_description=""):
+def new_update(update_message, function=False):
     print("You have a new update available to the operating system!")
     print("Use the 'update' command to update your system.")
     user["new_version"] = True
     user["update_message"] = update_message
-    if new_command != False:
-        user["new_command_name"] = new_command
-        user["new_command_description"] = new_command_description
+    if function != False:
+        user["update_function"] = function
 
 def next_command():
     command = input('/shell>')
@@ -75,20 +85,24 @@ def next_command():
                 print(str(entry) + ": " + command_list[entry])
                 
     elif command.startswith("add ") or command == "add":
-        user["points"] += user["point_increment"]
-        user["add_command_uses"] += 1
-        if user["point_increment"] == 1:
-            print("Added " + str(user["point_increment"]) + " point.")
+        if user["version"] < 1.2:
+            user["points"] += user["point_increment"]
+            user["add_command_uses"] += 1
+            if user["point_increment"] == 1:
+                print("Added " + str(user["point_increment"]) + " point.")
+            else:
+                print("Added " + str(user["point_increment"]) + " points.")
+            if user["add_command_uses"] == 20:
+                user["commands"].append("update")
+                command_list["update"] = "Updates the system, if there is a new update available."
+                new_update("'buy' command to buy software to allow you to gain more points. Subcommands: view", one_dot_one)
+            if user["points"] >= 1500 and user["version"] < 1.2 and user["new_version"] is False:
+                new_update("Minor bugfixes.")
         else:
-            print("Added " + str(user["point_increment"]) + " points.")
-        if user["add_command_uses"] == 20:
-            user["commands"].append("update")
-            command_list["update"] = "Updates the system, if there is a new update available."
-            new_update("'buy' command to buy software to allow you to gain more points. Subcommands: view", "buy")           
-            
+            print("NameError: 'point' does not exist")
+            print("An error occurred while executing the 'add' command.")
     elif command.startswith("points ") or command == "points":
         print("You have " + str(user["points"]) + " points.")
-        
     elif command.startswith("save ") or command == "save":
         with open('save.json', 'w+') as f:
             json.dump(user, f)
@@ -109,10 +123,10 @@ def next_command():
                 print("IdlePY shell version a" + str(user["version"]))
                 print("------------------------")
                 print("What's new: " + user["update_message"])
-                if user["new_command_name"] != False:
-                    user["commands"].append(user["new_command_name"])
-                    command_list[user["new_command_name"]] = user["new_command_description"]
-                    user["new_command_name"] = False
+                if user["update_function"] != False:
+                    function = user["update_function"]
+                    function()
+                    user["update_function"] = False
             else:
                 print("There is no update available.")
                 
@@ -128,12 +142,12 @@ def next_command():
                 for entry in software_list:
                     if commands[2] == entry:
                         entry_split = software_list[entry].split("$%")
-                        print(str(entry) + ": " + entry_split[0])
+                        print(str(entry) + ": " + entry_split[0] + " Costs " + entry_split[1] + " points.")
                         subcommand = True
                 if subcommand == False:
                     for entry in software_list:
                         entry_split = software_list[entry].split("$%")
-                        print(str(entry) + ": " + entry_split[0])
+                        print(str(entry) + ": " + entry_split[0] + " Costs " + entry_split[1] + " points.")
             else:
                 valid_entry = False
                 for entry in software_list:
@@ -143,16 +157,26 @@ def next_command():
                         if user["points"] >= int(entry_split[1]):
                             user["points"] -= int(entry_split[1])
                             function = function_list[entry_split[2]]
+                            print("Successfully bought {} for {} points.".format(entry, entry_split[1]))
+                            entry_split[1] = int(entry_split[1])
+                            entry_split[1] *= 1.15
+                            entry_split[1] = str(int(entry_split[1]))
+                            repeatable = entry_split[3]
+                            bought_entry = entry
+                            software_list[entry] = "$%".join(entry_split)
                             function()
-                            print("Successfully bought {} for {}".format(entry, entry_split[1]))
                         else:
                             print("Insufficient funds.")
+                try:
+                    if repeatable == "one_time":
+                        software_list.pop(bought_entry)
+                except NameError:
+                    pass
                 try: 
                     software_list.update(software_list_temp)
                     sofware_list_temp.clear()
                 except NameError:
-                    pass
-                
+                    pass 
                 if not valid_entry:
                     print("Software not found. Use 'buy view' to see a list of available software.")
     elif command.startswith("ls ") or command == "ls":
@@ -160,8 +184,23 @@ def next_command():
             print("Invalid command.")
         else:
             print("game shell home")
+           
+    elif command.startswith("badd ") or command == "badd":
+        if not "badd" in user["commands"]:
+            print("Invalid command.")
+        else:
+            user["points"] += user["point_increment"] * int((1 + random()))
+            user["add_command_uses"] += 1
+            if user["point_increment"] == 1:
+                print("Added " + str(user["point_increment"]) + " point.")
+            else:
+                print("Added " + str(user["point_increment"]) + " points.")
+    elif command.startswith("runpy ") or command == "runpy":
+        commands = command.split(" ", 2)
+        exec(commands[1])
     else:
         print("Invalid command.")
+            
 #load game save
 try:
     with open('save.json', 'r+') as f:
