@@ -1,3 +1,9 @@
+import sys
+import json
+import time
+from random import random
+from variable_setup import *
+
 def next_command():
     command = input('/shell>')
     
@@ -34,7 +40,11 @@ def next_command():
         print("You have " + str(user["points"]) + " points.")
     elif command.startswith("save ") or command == "save":
         with open('save.json', 'w+') as f:
-            json.dump(user, f)
+            save = {
+                "user": user,
+                "software_prices": software_prices
+            }
+            json.dump(save, f)
         print("Saved successfully! It is now safe to use the 'exit' command to exit the game.")
             
     elif command.startswith("exit ") or command == "exit":

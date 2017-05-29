@@ -1,16 +1,16 @@
-import sys
-import json
 import time
-from random import random
-import commands
-import variable_setup
+from commands import *
+from variable_setup import *
+
 #load game save
 try:
     with open('save.json', 'r+') as f:
         data = json.load(f)
     #if the old save doesn't have variables from a newer version, the newer variables won't be deleted
-    for variable in data:
-        user[variable] = data[variable]
+    for variable in data["user"]:
+        user[variable] = data["user"][variable]
+    for variable in data["software_prices"]:
+        software_prices[variable] = data["software_prices"][variable]
     #load unlocked commands into command list for help command
     if "update" in user["commands"]:
         command_list["update"] = "Updates the system, if there is a new update available."
