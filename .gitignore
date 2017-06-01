@@ -3,3 +3,4 @@ save.json
 run.bat
 IdlePY.zip
 __pycache__
+*.pyc

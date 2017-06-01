@@ -78,7 +78,7 @@ def next_command():
             commands.append("end")
             if commands[1] == "view":
                 for entry in software_list:
-                    print(entry + ": " + software_list[entry] + " Costs " + software_prices[entry] + " points.")
+                    print(entry + ": " + software_list[entry] + " Costs " + str(software_prices[entry]) + " points.")
             else:
                 valid_entry = False
                 for entry in software_list:
