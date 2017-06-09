@@ -7,7 +7,8 @@ user = {
     "new_version": False,
     "update_message": "",
     "update_function": "",
-    "version": 1.0,
+    "display_version": [1, 0],
+    "total_version": 1,
     "for_testing": ""
 }
 command_list = {
@@ -57,7 +58,7 @@ def better_add():
 #functions for updates that trigger when an update completes
 def one_dot_one():
     user["commands"].append("buy")
-    command_list["buy"] = "Allows you to buy software to help you get more points. Subcommands: view"
+    command_list["buy"] = "Allows you to buy software to help you get more points."
 
 function_list = {
     "Python": python,

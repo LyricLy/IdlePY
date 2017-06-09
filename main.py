@@ -1,6 +1,6 @@
 import time
 from commands import *
-from variable_setup import *
+from setup import *
 
 #load game save
 try:
@@ -20,14 +20,14 @@ try:
     if "update" in user["commands"]:
         command_list["update"] = "Updates the system, if there is a new update available."
     if "buy" in user["commands"]:
-        command_list["buy"] = "Allows you to buy software to help you get more points. Subcommands: view"
+        command_list["buy"] = "Allows you to buy software to help you get more points."
     if "ls" in user["commands"]:
         command_list["ls"] = "Discover what files are on your system so that you can poke around with other software."    
 except (FileNotFoundError, json.JSONDecodeError):
     #if save.json doesn't exist or is empty
     pass
 
-print("IdlePY shell version a" + str(user["version"]))
+print("IdlePY shell version a{}.{}".format(str(user["display_version"][0]), str(user["display_version"][1])))
 print("------------------------")
 time.sleep(1)
 while True:
