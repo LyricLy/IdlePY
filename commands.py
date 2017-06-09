@@ -88,7 +88,7 @@ def update():
         print("Updating...")
         time.sleep(5)
         user["version"] += 0.1
-        user["new_version"] == False
+        user["new_version"] = False
         print("IdlePY shell version a" + str(user["version"]))
         print("------------------------")
         print("What's new: " + user["update_message"])
