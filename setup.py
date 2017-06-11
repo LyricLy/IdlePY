@@ -8,15 +8,7 @@ user = {
     "update_message": "",
     "update_function": "",
     "display_version": [1, 0],
-    "total_version": 1,
-    "for_testing": ""
-}
-command_list = {
-    "help": "Prints this help message.",
-    "add": "Gives you points.",
-    "points": "Lists your points.",
-    "save": "Saves all of your variables to a save.json file.",
-    "exit": "Exits the game WITHOUT SAVING. Be careful with this command!"
+    "total_version": 1
 }
 software_list = {
     "Python": "A useful programming language that can allow you to program other software.",
@@ -46,7 +38,7 @@ def ls():
     user["software"].append("ls")
     user["commands"].append("ls")
     software_list_temp["vim"] = "A text editor that can be used to edit files. Could you possibly spoof some numbers?"
-    software_list_temp["cd"] = "A useful tool to move around your system.$%300$%cd$%one_time"
+    software_list_temp["cd"] = "A useful tool to move around your system."
     
 def point_hack():
     software_list_temp["PointHack Pro"] = "The professional version of PointHack to increase your point multiplier even more."
@@ -58,7 +50,6 @@ def better_add():
 #functions for updates that trigger when an update completes
 def one_dot_one():
     user["commands"].append("buy")
-    command_list["buy"] = "Allows you to buy software to help you get more points."
 
 function_list = {
     "Python": python,
