@@ -63,5 +63,5 @@ def new_update(update_message, function=False):
     print("Use the 'update' command to update your system.")
     user["new_version"] = True
     user["update_message"] = update_message
-    if function != False:
+    if function is not False:
         user["update_function"] = function

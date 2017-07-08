@@ -1,6 +1,7 @@
 import sys
 import json
 import time
+import base64
 from random import random
 from setup import *
 
@@ -24,13 +25,14 @@ def unlockable_command(function):
 @command
 def help(command=None):
     """Prints this help message."""
-    if command != None:
+    if command is not None:
         subcommand = False
         for entry in command_list:
             if command == entry:
                 print(str(entry) + ": " + command_list[entry])
                 subcommand = True
-        if subcommand == False: print("That is not a valid command.")
+        if subcommand is False: 
+            print("That is not a valid command.")
     else:
         for entry in command_list:
             print(str(entry) + ": " + command_list[entry])
@@ -69,7 +71,7 @@ def save():
             "software_prices": software_prices,
             "software_list": software_list
         }
-        json.dump(save, f)
+        f.write(base64.b64encode(json.dumps(save).encode('utf-8')).decode('utf-8'))
     print("Saved successfully! It is now safe to use the 'exit' command to exit the game.")
 
 @command    
@@ -92,7 +94,7 @@ def update():
         print("IdlePY shell version a{}.{}".format(str(user["display_version"][0]), str(user["display_version"][1])))
         print("------------------------")
         print("What's new: " + user["update_message"])
-        if user["update_function"] != False:
+        if user["update_function"] is not False:
             function = user["update_function"]
             function()
             user["update_function"] = False
@@ -121,7 +123,7 @@ def buy(*item):
                 else:
                     print("Insufficient funds.")
         try:
-            if repeatable[bought_entry] == False:
+            if repeatable[bought_entry] is False:
                 software_list.pop(bought_entry)
         except NameError:
             pass
