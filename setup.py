@@ -19,7 +19,11 @@ software_prices = {
     "Python": 1000,
     "ls": 700,
     "PointHack": 50,
-    "BetterAdd": 500
+    "BetterAdd": 500,
+    "PointHack Pro": 300,
+    "Basic Bot": 250,
+    "vim": 300,
+    "cd": 100
 }
 repeatable = {
     "Python": False,
