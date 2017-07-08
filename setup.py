@@ -29,7 +29,11 @@ repeatable = {
     "Python": False,
     "ls": False,
     "PointHack": True,
-    "BetterAdd": False
+    "BetterAdd": False,
+    "PointHack Pro": True,
+    "vim": False,
+    "cd": False,
+    "Basic Bot": True
 }
 software_list_temp = {}
 # functions for software from the shop that will trigger when software is bought
