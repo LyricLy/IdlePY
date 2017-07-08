@@ -32,7 +32,7 @@ repeatable = {
     "BetterAdd": False
 }
 software_list_temp = {}
-#functions for software from the shop that will trigger when software is bought
+# functions for software from the shop that will trigger when software is bought
 def python():
     user["software"].append("python")
     software_list_temp["Basic Bot"] = "Runs the add command once every five seconds."
@@ -48,10 +48,17 @@ def point_hack():
     software_list_temp["PointHack Pro"] = "The professional version of PointHack to increase your point multiplier even more."
     user["point_increment"] += 1
     
+def point_hack_pro():
+    user["point_increment"] += 2
+    
 def better_add():
     user["software"].append("better_add")
     user["commands"].append("badd")
-#functions for updates that trigger when an update completes
+    
+def placeholder():
+    print("This is a placeholder message! This item has not been implemented yet.")
+    
+# functions for updates that trigger when an update completes
 def one_dot_one():
     user["commands"].append("buy")
 
@@ -59,7 +66,11 @@ function_list = {
     "Python": python,
     "ls": ls,
     "PointHack": point_hack,
-    "BetterAdd": better_add
+    "BetterAdd": better_add,
+    "PointHack Pro": point_hack_pro,
+    "cd": placeholder,
+    "vim": placeholder,
+    "Basic Bot": placeholder
 }
   
 def new_update(update_message, function=False):
