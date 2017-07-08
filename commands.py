@@ -109,6 +109,9 @@ def buy(*item):
         for entry in software_list:
             print(entry + ": " + software_list[entry] + " Costs " + str(software_prices[entry]) + " points.")
     else:
+        if user["total_version"] == 3 and item.lower() != "python" and item.lower() != "betteradd":
+            print("aogaogjpaotjpatj")
+            return
         valid_entry = False
         for entry in software_list:
             if item.lower() == entry.lower():
@@ -143,7 +146,7 @@ def ls():
 @unlockable_command
 def badd(): 
     """An improved version of the add command!"""
-    increment = user["point_increment"] * int((1 + random()))
+    increment = int(user["point_increment"] * (1 + (random() / 2)))
     user["points"] += increment
     user["add_command_uses"] += 1
     if increment == 1:
