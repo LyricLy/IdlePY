@@ -1,6 +1,7 @@
 import time
 import json
 import base64
+import commands_logic
 from setup import *
 
 # load game save
@@ -19,11 +20,10 @@ except (FileNotFoundError, json.JSONDecodeError):
     # if save.json doesn't exist or is empty
     pass
     
-from commands import * # really hate to do this, but...
 print("IdlePY shell version a{}.{}".format(str(user["display_version"][0]), str(user["display_version"][1])))
 print("------------------------")
 time.sleep(1)
 while True:
-    next_command()
+    commands_logic.next_command()
 
     
