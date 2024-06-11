@@ -20,7 +20,7 @@ def update():
         print("What's new: " + user["update_message"])
         if user["update_function"] is not False:
             function = user["update_function"]
-            function()
+            globals()[function]()
             user["update_function"] = False
     else:
         print("There is no update available.")

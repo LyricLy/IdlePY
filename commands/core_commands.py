@@ -32,7 +32,7 @@ def add():
             print("Added " + str(user["point_increment"]) + " points.")
         if user["add_command_uses"] == 20:
             user["commands"].append("update")
-            new_update("'buy' command to buy software to allow you to gain more points.", one_dot_one)
+            new_update("'buy' command to buy software to allow you to gain more points.", "one_dot_one")
         if user["points"] >= 1500 and user["total_version"] < 3 and user["new_version"] is False:
             new_update("Minor bugfixes.")
     else:
